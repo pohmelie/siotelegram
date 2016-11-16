@@ -1,5 +1,3 @@
-import contextlib
-
 from .protocol import *
 from .io import *
 
