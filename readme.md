@@ -2,12 +2,12 @@
 Tiny telegram bot-api wrapper library.
 
 ## Reasons
-* support both, sync and async ways to deal with io.
 * [aiotg](https://github.com/szastupov/aiotg) is framework, not library and have no proxy support.
 * Raw api calls translation is better for understanding and will not break if telegram api will be changed.
 * `snake_case`
 
 ## Features
+* support both, sync and async ways to deal with io.
 * Simple as telegram api is.
 * `snake_case` api converted to telegram `camelCase`.
 * Polling `offset` handled for you via `get_updates` method.
