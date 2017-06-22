@@ -3,7 +3,7 @@ import functools
 
 import aiorequests
 
-from ..protocol import *
+from ..protocol import Protocol
 
 
 __all__ = (
@@ -14,12 +14,9 @@ __all__ = (
 class AioRequestsTelegramApi:
 
     def __init__(self, token, delay=1, proxy=None, loop=None, lock=None):
-
         self.session = aiorequests.Session()
         if proxy is not None:
-
             self.session.proxies = dict(http=proxy, https=proxy)
-
         self.proto = Protocol(token)
         self.delay = delay
         self.loop = loop or asyncio.get_event_loop()
@@ -28,30 +25,23 @@ class AioRequestsTelegramApi:
 
     @property
     def token(self):
-
         return self.proto.token
 
     def __getattr__(self, name):
-
         method = getattr(self.proto, name)
 
         @functools.wraps(method)
         def wrapper(*args, **kwargs):
-
             return self._run(method(*args, **kwargs))
 
         return wrapper
 
     async def _run(self, generator):
-
         with (await self.lock):
-
             response = None
             while True:
-
                 request = generator.send(response)
                 if request is None:
-
                     break
 
                 now = self.loop.time()
