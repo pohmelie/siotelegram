@@ -20,7 +20,7 @@ class Protocol:
 
     def _api_call(self, method, **options):
         url = str.format(Protocol.URL, token=self.token, method=method)
-        yield Request(method="get", url=url, data=options)
+        yield Request(method="post", url=url, data=options)
         yield None
 
     def __getattr__(self, method):
