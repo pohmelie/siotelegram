@@ -14,13 +14,14 @@ __all__ = (
 
 class RequestsTelegramApi:
 
-    def __init__(self, token, delay=1, proxy=None, lock=None):
+    def __init__(self, token, delay=1, proxy=None, lock=None, timeout=None):
         self.session = requests.Session()
         if proxy is not None:
             self.session.proxies = dict(http=proxy, https=proxy)
         self.proto = Protocol(token)
         self.delay = delay
         self.lock = lock or threading.Lock()
+        self.timeout = timeout
         self.last_request_time = 0
 
     @property
@@ -43,12 +44,11 @@ class RequestsTelegramApi:
                 request = generator.send(response)
                 if request is None:
                     break
-
                 now = time.perf_counter()
                 timeout = max(0, self.delay - (now - self.last_request_time))
                 time.sleep(timeout)
-
                 self.last_request_time = time.perf_counter()
-                response = self.session.request(**request._asdict()).json()
-
+                kw = request._asdict()
+                kw["timeout"] = timeout
+                response = self.session.request(**kw).json()
         return response

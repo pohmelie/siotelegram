@@ -1,10 +1,12 @@
 import os
 import re
+import pathlib
+
 from setuptools import setup, find_packages
 
 
 def read(f):
-    return open(os.path.join(os.path.dirname(__file__), f)).read().strip()
+    return (pathlib.Path(__file__).parent / f).read_text("utf-8").strip()
 
 
 try:
@@ -30,5 +32,14 @@ setup(
     license="WTFPL",
     packages=find_packages(),
     install_requires=[],
+    extras_require={
+        "aiohttp": [
+            "aiohttp",
+            "async_timeout >= 1.2.0",
+        ],
+        "requests": [
+            "requests",
+        ]
+    },
     include_package_data=True,
 )
