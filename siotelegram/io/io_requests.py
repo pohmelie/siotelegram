@@ -45,10 +45,10 @@ class RequestsTelegramApi:
                 if request is None:
                     break
                 now = time.perf_counter()
-                timeout = max(0, self.delay - (now - self.last_request_time))
-                time.sleep(timeout)
+                t = max(0, self.delay - (now - self.last_request_time))
+                time.sleep(t)
                 self.last_request_time = time.perf_counter()
                 kw = request._asdict()
-                kw["timeout"] = timeout
+                kw["timeout"] = self.timeout
                 response = self.session.request(**kw).json()
         return response

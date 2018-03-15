@@ -30,7 +30,7 @@ class AioHTTPTelegramApi:
     async def __aenter__(self):
         return self
 
-    def __aexit__(self, exc_type, exc, tb):
+    async def __aexit__(self, exc_type, exc, tb):
         return await self.close()
 
     @property
@@ -54,8 +54,8 @@ class AioHTTPTelegramApi:
                 if request is None:
                     break
                 now = self.loop.time()
-                timeout = max(0, self.delay - (now - self.last_request_time))
-                await asyncio.sleep(timeout, loop=self.loop)
+                t = max(0, self.delay - (now - self.last_request_time))
+                await asyncio.sleep(t, loop=self.loop)
                 self.last_request_time = self.loop.time()
                 kw = request._asdict()
                 kw["proxy"] = self.proxy
