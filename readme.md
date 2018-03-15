@@ -19,7 +19,10 @@ Tiny telegram bot-api wrapper library.
 for simplifying flow and holding state. `siotelegram` have io backends based on:
 * requests
 * aiohttp
-* [aiorequests](https://github.com/pohmelie/aiorequests)
+
+## Installation
+* sync: `python -m pip install siotelegram[requests]`
+* async: `python -m pip install siotelegram[aiohttp]`
 
 ## Example
 ``` python
@@ -32,21 +35,15 @@ TOKEN = "token"
 
 
 def requests_example():
-    api = siotelegram.RequestsTelegramApi(TOKEN)
+    api = siotelegram.RequestsTelegramApi(TOKEN, timeout=10)
     response = api.get_updates()
     print(response)
 
 
 async def aiohttp_example():
-    async with siotelegram.AioHTTPTelegramApi(TOKEN) as api:
+    async with siotelegram.AioHTTPTelegramApi(TOKEN, timeout=10) as api:
         response = await api.get_updates()
         print(response)
-
-
-async def aiorequests_example():
-    api = siotelegram.AioRequestsTelegramApi(TOKEN)
-    response = await api.get_updates()
-    print(response)
 
 
 if __name__ == "__main__":
@@ -57,13 +54,4 @@ if __name__ == "__main__":
     # aiohttp
     loop = asyncio.get_event_loop()
     loop.run_until_complete(aiohttp_example())
-    time.sleep(1)
-    # aiorequests
-    import aiorequests
-    import concurrent
-    with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
-        loop = asyncio.get_event_loop()
-        loop.set_default_executor(executor)
-        aiorequests.set_async_requests(loop=loop)
-        loop.run_until_complete(aiorequests_example())
 ```
