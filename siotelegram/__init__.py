@@ -10,4 +10,4 @@ __all__ = [
 
 
 __version__ = "1.0.1"
-version = tuple(map(int, str.split(__version__, ".")))
+version = tuple(map(int, __version__.split(".")))

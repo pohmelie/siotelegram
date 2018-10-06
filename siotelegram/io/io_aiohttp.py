@@ -38,6 +38,8 @@ class AioHTTPTelegramApi:
         return self.proto.token
 
     def __getattr__(self, name):
+        if name in ("__getstate__", "__setstate__"):
+            raise AttributeError
         method = getattr(self.proto, name)
 
         @functools.wraps(method)

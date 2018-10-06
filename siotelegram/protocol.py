@@ -19,12 +19,14 @@ class Protocol:
         self.offset = 0
 
     def _api_call(self, method, **options):
-        url = str.format(Protocol.URL, token=self.token, method=method)
+        url = Protocol.URL.format(token=self.token, method=method)
         yield Request(method="post", url=url, data=options)
         yield None
 
     def __getattr__(self, method):
-        return functools.partial(self._api_call, str.replace(method, "_", ""))
+        if method in ("__getstate__", "__setstate__"):
+            raise AttributeError
+        return functools.partial(self._api_call, method.replace("_", ""))
 
     def get_updates(self):
         for request in self.getUpdates(offset=self.offset):
