@@ -8,7 +8,7 @@ __all__ = (
 )
 
 
-Request = collections.namedtuple("Request", "method url data")
+Request = collections.namedtuple("Request", "method url data files")
 
 
 class Protocol:
@@ -18,9 +18,9 @@ class Protocol:
         self.token = token
         self.offset = 0
 
-    def _api_call(self, method, **options):
-        url = Protocol.URL.format(token=self.token, method=method)
-        yield Request(method="post", url=url, data=options)
+    def _api_call(self, method, *, files_=None, **options):
+        url = self.URL.format(token=self.token, method=method)
+        yield Request(method="post", url=url, data=options, files=files_)
         yield None
 
     def __getattr__(self, method):

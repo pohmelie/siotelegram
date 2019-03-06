@@ -53,6 +53,8 @@ class AioHTTPTelegramApi:
             response = None
             while True:
                 request = generator.send(response)
+                if request.files is not None:
+                    raise NotImplementedError("files upload functionality for aiohttp is not implemented yet")
                 if request is None:
                     break
                 now = self.loop.time()
