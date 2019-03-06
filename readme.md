@@ -24,7 +24,9 @@ for simplifying flow and holding state. `siotelegram` have io backends based on:
 * sync: `python -m pip install siotelegram[requests]`
 * async: `python -m pip install siotelegram[aiohttp]`
 
-## Example
+## Examples
+
+### Common
 ``` python
 import asyncio
 
@@ -54,4 +56,20 @@ if __name__ == "__main__":
     # aiohttp
     loop = asyncio.get_event_loop()
     loop.run_until_complete(aiohttp_example())
+```
+
+### Send files
+``` python
+import siotelegram
+api = siotelegram.RequestsTelegramApi(TOKEN, timeout=10)
+name = "capybara.jpg"
+api.send_photo(chat_id=chat_id, caption="Hellow world!", files_=dict(photo=open(, "rb")))
+
+# or from in-memory bytes
+import pathlib
+import io
+data = pathlib.Path(name).read_bytes()
+f = io.BytesIO(data)
+f.name = name
+api.send_photo(chat_id=chat_id, caption="Hellow world!", files_=dict(photo=f))
 ```
