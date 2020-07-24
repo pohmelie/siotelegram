@@ -22,6 +22,7 @@ setup(
     version=version,
     description=("Sans io telegram api with couple io backends"),
     long_description=read("readme.md"),
+    long_description_content_type="text/markdown",
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
