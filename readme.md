@@ -54,8 +54,7 @@ if __name__ == "__main__":
     requests_example()
     time.sleep(1)
     # aiohttp
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(aiohttp_example())
+    asyncio.run(aiohttp_example())
 ```
 
 ### Send files

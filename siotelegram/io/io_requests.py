@@ -4,7 +4,7 @@ import threading
 
 import requests
 
-from ..protocol import Protocol
+from ..protocol import Protocol, DEFAULT_TIMEOUT, DEFAULT_DELAY
 
 
 __all__ = (
@@ -14,7 +14,7 @@ __all__ = (
 
 class RequestsTelegramApi:
 
-    def __init__(self, token, delay=1, proxy=None, lock=None, timeout=None):
+    def __init__(self, token, delay=DEFAULT_DELAY, proxy=None, lock=None, timeout=DEFAULT_TIMEOUT):
         self.session = requests.Session()
         if proxy is not None:
             self.session.proxies = dict(http=proxy, https=proxy)
@@ -46,11 +46,15 @@ class RequestsTelegramApi:
                 request = generator.send(response)
                 if request is None:
                     break
-                now = time.perf_counter()
+                now = time.monotonic()
                 t = max(0, self.delay - (now - self.last_request_time))
                 time.sleep(t)
-                self.last_request_time = time.perf_counter()
-                kw = request._asdict()
-                kw["timeout"] = self.timeout
-                response = self.session.request(**kw).json()
+                self.last_request_time = time.monotonic()
+                req = {
+                    "method": request.method,
+                    "url": request.url,
+                    "data": request.data,
+                    "timeout": self.timeout,
+                }
+                response = self.session.request(**req).json()
         return response

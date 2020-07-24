@@ -31,6 +31,7 @@ setup(
     url="https://github.com/pohmelie/siotelegram",
     license="WTFPL",
     packages=find_packages(),
+    python_requires=">= 3.7",
     install_requires=[],
     extras_require={
         "aiohttp": [

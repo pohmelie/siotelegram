@@ -1,5 +1,5 @@
 import functools
-import collections
+from dataclasses import dataclass
 
 
 __all__ = (
@@ -8,7 +8,16 @@ __all__ = (
 )
 
 
-Request = collections.namedtuple("Request", "method url data files")
+DEFAULT_DELAY = 1
+DEFAULT_TIMEOUT = 30
+
+
+@dataclass
+class Request:
+    method: str
+    url: str
+    data: dict
+    files: dict
 
 
 class Protocol:
