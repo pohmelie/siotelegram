@@ -39,6 +39,10 @@ setup(
             "aiohttp",
             "async_timeout >= 1.2.0",
         ],
+        "httpx": [
+            "httpx",
+            "async_timeout",
+        ],
         "requests": [
             "requests",
         ]

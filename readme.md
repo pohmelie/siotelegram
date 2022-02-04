@@ -19,10 +19,14 @@ Tiny telegram bot-api wrapper library.
 for simplifying flow and holding state. `siotelegram` have io backends based on:
 * requests
 * aiohttp
+* httpx
 
 ## Installation
-* sync: `python -m pip install siotelegram[requests]`
-* async: `python -m pip install siotelegram[aiohttp]`
+* sync:
+    * `python -m pip install siotelegram[requests]`
+* async:
+    * `python -m pip install siotelegram[aiohttp]`
+    * `python -m pip install siotelegram[httpx]`
 
 ## Examples
 
